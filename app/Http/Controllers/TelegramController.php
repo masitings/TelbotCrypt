@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Telegram;
+use Carbon\Carbon;
+use coinmarketcap\api\CoinMarketCap;
+use Exception;
 use Illuminate\Http\Request;
 use Telegram\Bot\Api;
 
