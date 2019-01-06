@@ -123,7 +123,7 @@ class TelegramController extends Controller
             'Alias Coin' => $data['symbol'],
             'Harga USD' => '$'.number_format($data['price_usd']),
             'Harga IDR' => 'Rp.'.$this->convertToIDR($data['price_usd']),
-            'Total Supply' => number_format($data['total_supply']).' BTC',
+            'Total Supply' => number_format($data['total_supply']).' '.$data['symbol'],
         ];
         return $arr;
     }
