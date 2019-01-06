@@ -39,24 +39,36 @@ class TelegramController extends Controller
         $this->chat_id = $request['message']['chat']['id'];
         $this->username = $request['message']['from']['username'];
         $this->text = $request['message']['text'];
- 
-        switch ($this->text) {
-            case '/start':
-            case '/menu':
-                $this->showMenu();
-                break;
-            case '/getGlobal':
-                $this->showGlobal();
-                break;
-            case '/getTicker':
-                $this->getTicker();
-                break;
-            case '/getCurrencyTicker':
-                $this->getCurrencyTicker();
-                break;
-            default:
-                $this->checkDatabase();
+        
+        if (strpos($this->text, 'menu') !== false) {
+            $this->showMenu(); 
+        } elseif (strpos($this->text, 'global')) {
+            $this->getGlobal();
+        } elseif (strpos($this->text, 'top') !== false) {
+            $this->getTicker();
+        } elseif (strpos($this->text, 'coin') !== false) {
+            $this->getCurrencyTicker();
+            $this->checkDatabase();
+        } else {
+            $this->checkDatabase();
         }
+        // switch ($this->text) {
+        //     case '/start':
+        //     case '/menu':
+        //         $this->showMenu();
+        //         break;
+        //     case '/getGlobal':
+        //         $this->showGlobal();
+        //         break;
+        //     case '/getTicker':
+        //         $this->getTicker();
+        //         break;
+        //     case '/getCurrencyTicker':
+        //         $this->getCurrencyTicker();
+        //         break;
+        //     default:
+        //         $this->checkDatabase();
+        // }
     }
 
     public function showMenu($info = null)
