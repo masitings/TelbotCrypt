@@ -50,7 +50,9 @@ class TelegramController extends Controller
             $this->getCurrencyTicker();
             $this->checkDatabase();
         } else {
-            $this->checkDatabase();
+            $error = "Sorry, no such cryptocurrency found.\n";
+            $error .= "Please select one of the following options";
+            $this->showMenu($error);
         }
         // switch ($this->text) {
         //     case '/start':
