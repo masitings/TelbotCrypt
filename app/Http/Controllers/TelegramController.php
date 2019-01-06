@@ -42,7 +42,7 @@ class TelegramController extends Controller
         
         if (strpos($this->text, 'menu') !== false) {
             $this->showMenu(); 
-        } elseif (strpos($this->text, 'global')) {
+        } elseif (strpos($this->text, 'global') !== false) {
             $this->getGlobal();
         } elseif (strpos($this->text, 'top') !== false) {
             $this->getTicker();
