@@ -87,15 +87,14 @@ class TelegramController extends Controller
         $telegram = Telegram::where('username', $this->username)->latest()->first();
         // Telegram::where('username', $this->username)->delete();
         if ($telegram->command === 'getCurrencyTicker') {
-            $this->sendMessage('Apasihhhh', true);
-            // $response = CoinMarketCap::getCurrencyTicker($this->text);
-            // if (isset($response['error'])) {
-            //     $message = 'Sorry no such cryptocurrency found buddy..';
-            // } else {
-            //     $message = $this->formatArray($response[0]);
-            // }
-            // Telegram::where('username', $this->username)->delete();
-            // $this->sendMessage($message, true);
+            $response = CoinMarketCap::getCurrencyTicker($this->text);
+            if (isset($response['error'])) {
+                $message = 'Sorry no such cryptocurrency found buddy..';
+            } else {
+                $message = $this->formatArray($response[0]);
+            }
+            Telegram::where('username', $this->username)->delete();
+            $this->sendMessage($message, true);
         } else {
             $error = "Sorry, no such cryptocurrency found.\n";
             $error .= "Please select one of the following options";
