@@ -131,12 +131,12 @@ class TelegramController extends Controller
     public function formatGlobal($data)
     {
         $arr = [
-            'Total Market Cap (USD)' => number_format($data['total_market_cap_usd']),
-            'Total Volume Coin Selama 24 Jam' => number_format($data['total_24h_volume_usd']),
-            'Persentase Bitcoin di Market' => $data['bitcoin_percentage_of_market_cap'].'%',
-            'Kurs aktif' => number_format($data['active_currencies']),
-            'Aset aktif' => number_format($data['active_assets']),
-            'Market aktif' => number_format($data['active_markets']),
+            'Total Market Cap (USD)' =>  "\xE2\x9C\x94 ".number_format($data['total_market_cap_usd']),
+            'Total Volume Coin Selama 24 Jam' =>  "\xE2\x9C\x94 ".number_format($data['total_24h_volume_usd']),
+            'Persentase Bitcoin di Market' =>  "\xE2\x9C\x94 ".$data['bitcoin_percentage_of_market_cap'].'%',
+            'Kurs aktif' => "\xE2\x9C\x94 ". number_format($data['active_currencies']),
+            'Aset aktif' =>  "\xE2\x9C\x94 ".number_format($data['active_assets']),
+            'Market aktif' =>  "\xE2\x9C\x94 ".number_format($data['active_markets']),
         ];
         return $arr;
     }
