@@ -139,7 +139,7 @@ class TelegramController extends Controller
                 $value = Carbon::createFromTimestampUTC($value)->diffForHumans();
             }
             $formatted_data .= "<b>{$item}</b>\n";
-            $formatted_data .= "\t".number_format($value)."\n";
+            $formatted_data .= "\t".$value."\n";
         }
         return $formatted_data;
     }
