@@ -72,28 +72,34 @@ class TelegramController extends Controller
         }
     }
 
+    public function getCurrencyTicker()
+    {
+        $message = "Coin apa bapak ? ";
+        Telegram::create([
+            'username' => $this->username,
+            'command' => __FUNCTION__
+        ]);
+        $this->sendMessage($message);
+    }
+
     public function checkDatabase()
     {
         try {
-            $telegram = Telegram::where('username', $this->username)->latest()->first();
-            $this->sendMessage($telegam->command, true);
-            // if ($telegram->command === 'getCurrencyTicker') {
-            //     $response = CoinMarketCap::getCurrencyTicker($this->text);
+            $telegram = Telegram::where('username', $this->username)->latest()->firstOrFail();
  
-            //     // if (isset($response['error'])) {
-            //     //     $message = 'Sorry no such cryptocurrency found';
-            //     // } else {
-            //     //     $message = $this->formatArray($response[0]);
-            //     // }
-            //     $this->sendMessage($telegam->command, true);
-            //     Telegram::where('username', $this->username)->delete();
+            if ($telegram->command == 'getCurrencyTicker') {
+                $response = CoinMarketCap::getCurrencyTicker($this->text);
  
-                
-            // } else {
-            //     $this->sendMessage($telegam->command, true);
-            //     Telegram::where('username', $this->username)->delete();
-
-            // }
+                if (isset($response['error'])) {
+                    $message = 'Sorry no such cryptocurrency found';
+                } else {
+                    $message = $this->formatArray($response[0]);
+                }
+ 
+                Telegram::where('username', $this->username)->delete();
+ 
+                $this->sendMessage($message, true);
+            }
         } catch (Exception $exception) {
             $error = "Sorry, no such cryptocurrency found.\n";
             $error .= "Please select one of the following options";
@@ -138,17 +144,7 @@ class TelegramController extends Controller
         $this->sendMessage($formatted_data, true);
     }
  
-    public function getCurrencyTicker()
-    {
-        $message = "Coin apa bapak ? ";
- 
-        Telegram::create([
-            'username' => $this->username,
-            'command' => __FUNCTION__
-        ]);
- 
-        $this->sendMessage($message);
-    }
+    
  
     
  
