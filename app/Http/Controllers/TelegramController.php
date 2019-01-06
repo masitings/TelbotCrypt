@@ -99,6 +99,35 @@ class TelegramController extends Controller
         }
     }
 
+    private function priceDollar()
+    {
+        $base = 'https://free.currencyconverterapi.com/api/v6/convert?q=USD_IDR&compact=y';
+        $get = file_get_contents($base);
+        $val = collect(json_decode($get));
+        $vals = number_format($val['USD_IDR']->val);
+        return str_replace(',', '', $vals);
+    }
+
+    private function convertToIDR($amount)
+    {
+        $am = (int)$amount;
+        $usd = $this->priceDollar();
+        return number_format($am * $usd);
+    }
+
+    public function formatCoin($data)
+    {
+        $arr = [
+            'Ranking Coin' => $data['rank'],
+            'Nama Coin' => $data['name'],
+            'Alias Coin' => $data['symbol'],
+            'Harga USD' => '$'.number_format($data['price_usd']),
+            'Harga IDR' => 'Rp.'.$this->convertToIDR($data['price_usd']),
+            'Total Supply' => number_format($data['total_supply']).' BTC',
+        ];
+        return $arr;
+    }
+
     public function checkDatabase()
     {
         $telegram = Telegram::where('username', $this->username)->latest()->first();
@@ -108,7 +137,10 @@ class TelegramController extends Controller
             if (isset($response['error'])) {
                 $message = 'Sorry no such cryptocurrency found buddy..';
             } else {
-                $message = $this->formatArray($response[0]);
+                $data = collect($response);
+                $rep = $data->first();
+
+                $message = $this->formatArray($this->formatCoin($data));
             }
             Telegram::where('username', $this->username)->delete();
             $this->sendMessage($message, true);
