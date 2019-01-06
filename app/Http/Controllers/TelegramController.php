@@ -39,7 +39,7 @@ class TelegramController extends Controller
         $msg = [
             'Hallo bang, ada yang bisa di bantu ?', 'Hallo boss, gimana ? ada yang bisa di bantu ?', 'Uhh... Gimana pak ?', 'Iya pak ? Gimana ?', 'Oh gimana mas / mbak ?';
         ]
-        return $msg[rand(0, count($msg)-1)];
+        return $msg[array_rand($msg)];
     }
 
 	public function handleRequest(Request $request)
