@@ -179,7 +179,7 @@ class TelegramController extends Controller
         $data = CoinMarketCap::getTicker();
         $formatted_data = "";
         foreach ($data as $datum) {
-            $formatted_data .= $this->formatArray($datum);
+            $formatted_data .= $this->formatArray($this->formatCoin($datum));
             $formatted_data .= "-----------\n";
         }
         $this->sendMessage($formatted_data, true);
