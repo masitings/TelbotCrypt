@@ -82,13 +82,13 @@ class TelegramController extends Controller
     private function clearMessage()
     {
 
-        if ($this->strposa($this->text, ['btc', 'bitcoin'], 1)) {
+        if ($this->strposa($this->text, ['btc', 'bitcoin'], 1) !== false) {
             return 'bitcoin';
-        } elseif ($this->strposa($this->text, ['ltc', 'litecoin'], 1)) {
+        } elseif ($this->strposa($this->text, ['ltc', 'litecoin'], 1) !== false) {
             return 'litecoin';
-        } elseif ($this->strposa($this->text, ['xmr', 'monero'], 1)) {
+        } elseif ($this->strposa($this->text, ['xmr', 'monero'], 1) !== false) {
             return 'monero';
-        } elseif ($this->strposa($this->text, ['eth', 'etherum'], 1)) {
+        } elseif ($this->strposa($this->text, ['eth', 'etherum'], 1) !== false) {
             return 'etherum';
         } else {
             return false;
