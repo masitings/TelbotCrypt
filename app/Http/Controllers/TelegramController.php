@@ -72,38 +72,19 @@ class TelegramController extends Controller
         }
     }
 
-    private function strposa($haystack, $needles=array(), $offset=0) {
-        $chr = array();
-        foreach($needles as $needle) {
-                $res = strpos($haystack, $needle, $offset);
-                if ($res !== false) $chr[$needle] = $res;
-        }
-        if(empty($chr)) return false;
-        return min($chr);
-    }
-
-    public function processCoin()
-    {
-        $coin = [
-            'bitcoin', 'btc', 'litecoin', 'ltc', 'monero', 'xmr'
-        ];
-        if ($this->strposa($this->text, $coin, 1)) {
-            return $coin;
-        } else {
-            return false;
-        }
-    }
-
     public function showMenu($info = null)
     {
         $message = '';
         if ($info) {
             $message .= $info . chr(10);
         }
-        $message .= '/menu (Menampilkan menu)' . chr(10);
-        $message .= '/getGlobal (Menampilkan total seluruh coin)' . chr(10);
-        $message .= '/getTicker (Menampilkan 10 ranking coin.)' . chr(10);
-        $message .= '/getCurrencyTicker (Menampilkan berdasarkan inputan)' . chr(10);
+        $message .= 'Hallo abang / mbak ?' . chr(10);
+        $message .= 'Kalo mau nampilin total cap market tinggal tulis command "global" contoh "tampilin global"' . chr(10);
+        $message .= '-----------' . chr(10);
+        $message .= 'Beberapa list command yang tersedia : ' . chr(10);
+        $message .= '"global" => nampilin total market cap' . chr(10);
+        $message .= '"top" => nampilin 10 ranking coin' . chr(10);
+        $message .= '"coin" => nampilin coin berdasarkan inputan' . chr(10);
  
         $this->sendMessage($message);
     }
