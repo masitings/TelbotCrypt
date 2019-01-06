@@ -40,42 +40,36 @@ class TelegramController extends Controller
         $this->username = $request['message']['from']['username'];
         $this->text = $request['message']['text'];
         
-        if (strpos($this->text, 'menu') !== false) {
-            $this->showMenu(); 
-        } elseif (strpos($this->text, 'global') !== false) {
-            $this->getGlobal();
-        } elseif (strpos($this->text, 'top') !== false) {
-            $this->getTicker();
-        } elseif (strpos($this->text, 'coin') !== false) {
-            $this->getCurrencyTicker();
-            if ($this->processCoin() != false) {
-                $this->sendMessage($this->processCoin(), true);
-            } else {
-                $this->sendMessage('SALAH OM', true);
-            }
-            // $this->checkDatabase();
-        } else {
-            $error = "Sorry, no such cryptocurrency found.\n";
-            $error .= "Please select one of the following options";
-            $this->showMenu($error);
-        }
-        // switch ($this->text) {
-        //     case '/start':
-        //     case '/menu':
-        //         $this->showMenu();
-        //         break;
-        //     case '/getGlobal':
-        //         $this->showGlobal();
-        //         break;
-        //     case '/getTicker':
-        //         $this->getTicker();
-        //         break;
-        //     case '/getCurrencyTicker':
-        //         $this->getCurrencyTicker();
-        //         break;
-        //     default:
-        //         $this->checkDatabase();
+        // if (strpos($this->text, 'menu') !== false) {
+        //     $this->showMenu(); 
+        // } elseif (strpos($this->text, 'global') !== false) {
+        //     $this->getGlobal();
+        // } elseif (strpos($this->text, 'top') !== false) {
+        //     $this->getTicker();
+        // } elseif (strpos($this->text, 'coin') !== false) {
+        //     $this->getCurrencyTicker();
+        //     // $this->checkDatabase();
+        // } else {
+        //     $error = "Sorry, no such cryptocurrency found.\n";
+        //     $error .= "Please select one of the following options";
+        //     $this->showMenu($error);
         // }
+        switch ($this->text) {
+            case strpos($this->text, 'menu') !== false:
+                $this->showMenu();
+                break;
+            case strpos($this->text, 'global') !== false:
+                $this->showGlobal();
+                break;
+            case strpos($this->text, 'top') !== false:
+                $this->getTicker();
+                break;
+            case strpos($this->text, 'coin') !== false:
+                $this->getCurrencyTicker();
+                break;
+            default:
+                $this->checkDatabase();
+        }
     }
 
     private function strposa($haystack, $needles=array(), $offset=0) {
