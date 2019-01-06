@@ -118,12 +118,12 @@ class TelegramController extends Controller
     public function formatCoin($data)
     {
         $arr = [
-            " \xF0\x9F\x8C\x9F Ranking Coin" => $data['rank'],
+            "Ranking Coin \xF0\x9F\x8C\x9F" => $data['rank'],
             'Nama Coin' => $data['name'],
             'Alias Coin' => $data['symbol'],
-            'Harga USD' => '$'.number_format($data['price_usd']),
-            'Harga IDR' => 'Rp.'.$this->convertToIDR($data['price_usd']),
-            'Total Supply' => number_format($data['total_supply']).' '.$data['symbol'],
+            "Harga USD \xF0\x9F\x92\xB0" => '$'.number_format($data['price_usd']),
+            "Harga IDR \xF0\x9F\x92\xB0" => 'Rp.'.$this->convertToIDR($data['price_usd']),
+            "Total Supply \xF0\x9F\x93\xA6" => number_format($data['total_supply']).' '.$data['symbol'],
         ];
         return $arr;
     }
