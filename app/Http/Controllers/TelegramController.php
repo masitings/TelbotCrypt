@@ -48,7 +48,10 @@ class TelegramController extends Controller
             $this->getTicker();
         } elseif (strpos($this->text, 'coin') !== false) {
             $this->getCurrencyTicker();
-            $this->checkDatabase();
+            if ($this->processCoin() != false) {
+                $this->sendMessage($this->processCoin(), true);
+            }
+            // $this->checkDatabase();
         } else {
             $error = "Sorry, no such cryptocurrency found.\n";
             $error .= "Please select one of the following options";
@@ -71,6 +74,28 @@ class TelegramController extends Controller
         //     default:
         //         $this->checkDatabase();
         // }
+    }
+
+    private function strposa($haystack, $needles=array(), $offset=0) {
+        $chr = array();
+        foreach($needles as $needle) {
+                $res = strpos($haystack, $needle, $offset);
+                if ($res !== false) $chr[$needle] = $res;
+        }
+        if(empty($chr)) return false;
+        return min($chr);
+    }
+
+    public function processCoin()
+    {
+        $coin = [
+            'bitcoin', 'btc', 'litecoin', 'ltc', 'monero', 'xmr'
+        ];
+        if ($this->strposa($this->text, $coin, 1)) {
+            return $coin;
+        } else {
+            return false;
+        }
     }
 
     public function showMenu($info = null)
