@@ -34,6 +34,14 @@ class TelegramController extends Controller
 	    return $response == true ? redirect()->back() : dd($response);
 	}
 
+    private function randOpenMsg()
+    {
+        $msg = [
+            'Hallo bang, ada yang bisa di bantu ?', 'Hallo boss, gimana ? ada yang bisa di bantu ?', 'Uhh... Gimana pak ?', 'Iya pak ? Gimana ?', 'Oh gimana mas / mbak ?';
+        ]
+        return $msg[rand(0, count($msg)-1)];
+    }
+
 	public function handleRequest(Request $request)
     {
         $this->chat_id = $request['message']['chat']['id'];
@@ -42,7 +50,7 @@ class TelegramController extends Controller
         
         switch ($this->text) {
             case strpos($this->text, 'menu') !== false:
-                $msg = "Hallo bang / mbak ? Ada yang bisa dibantu ?.\n";
+                $msg = $this->randOpenMsg();
                 $this->showMenu($msg);
                 break;
             case strpos($this->text, 'global') !== false:
