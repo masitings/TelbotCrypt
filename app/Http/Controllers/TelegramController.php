@@ -82,16 +82,14 @@ class TelegramController extends Controller
     private function clearMessage($input)
     {
 
-        if ($this->strposa($input, ['btc', 'bitcoin'], 1) !== false) {
+        if ($this->strposa($input, ['btc', 'bitcoin'], 1)) {
             return 'bitcoin';
-        } elseif ($this->strposa($input, ['ltc', 'litecoin'], 1) !== false) {
+        } elseif ($this->strposa($input, ['ltc', 'litecoin'], 1)) {
             return 'litecoin';
-        } elseif ($this->strposa($input, ['xmr', 'monero'], 1) !== false) {
+        } elseif ($this->strposa($input, ['xmr', 'monero'], 1)) {
             return 'monero';
-        } elseif ($this->strposa($input, ['eth', 'etherum'], 1) !== false) {
+        } elseif ($this->strposa($input, ['eth', 'etherum'], 1)) {
             return 'etherum';
-        } else {
-            return false;
         }
     }
 
@@ -99,9 +97,9 @@ class TelegramController extends Controller
     {
         $telegram = Telegram::where('username', $this->username)->latest()->first();
         if ($telegram->command === 'getCurrencyTicker') {
-            // $clearMsg = $this->clearMessage($this->text);
-            // if ($clearMsg != false) {
-                $response = CoinMarketCap::getCurrencyTicker($this->text);
+            $clearMsg = $this->clearMessage($this->text);
+            if ($clearMsg != false) {
+                $response = CoinMarketCap::getCurrencyTicker($clearMsg);
                 if (isset($response['error'])) {
                     $message = 'Sorry no such cryptocurrency found buddy..';
                 } else {
@@ -109,11 +107,11 @@ class TelegramController extends Controller
                 }
                 Telegram::where('username', $this->username)->delete();
                 $this->sendMessage($message, true);
-            // } else {
-            //     $error = "Sorry pak, gak ada hasil untuk : .\n";
-            //     $error .= "<b>".$this->text." 1</b>";
-            //     $this->showMenu($error);
-            // }
+            } else {
+                $error = "Sorry pak, gak ada hasil untuk : .\n";
+                $error .= "<b>".$this->text." 1</b>";
+                $this->showMenu($error);
+            }
         } else {
             $error = "Sorry pak, gak ada hasil untuk : .\n";
             $error .= "<b>".$this->text." 2 </b>";
