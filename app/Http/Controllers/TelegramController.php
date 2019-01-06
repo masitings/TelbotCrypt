@@ -69,14 +69,12 @@ class TelegramController extends Controller
         $this->sendMessage($message);
     }
 
-    private function strposa($haystack, $needles=array(), $offset=0) {
-        $chr = array();
-        foreach($needles as $needle) {
-                $res = strpos($haystack, $needle, $offset);
-                if ($res !== false) $chr[$needle] = $res;
+    private function strposa($haystack, $needle, $offset=0) {
+        if(!is_array($needle)) $needle = array($needle);
+        foreach($needle as $query) {
+            if(strpos($haystack, $query, $offset) !== false) return true; // stop on first true result
         }
-        if(empty($chr)) return false;
-        return min($chr);
+        return false;
     }
 
     private function clearMessage($input)
@@ -98,20 +96,14 @@ class TelegramController extends Controller
         $telegram = Telegram::where('username', $this->username)->latest()->first();
         if ($telegram->command === 'getCurrencyTicker') {
             $clearMsg = $this->clearMessage($this->text);
-            if ($clearMsg != false) {
-                $response = CoinMarketCap::getCurrencyTicker($clearMsg);
-                if (isset($response['error'])) {
-                    $message = 'Sorry no such cryptocurrency found buddy..';
-                } else {
-                    $message = $this->formatArray($response[0]);
-                }
-                Telegram::where('username', $this->username)->delete();
-                $this->sendMessage($message, true);
+            $response = CoinMarketCap::getCurrencyTicker($clearMsg);
+            if (isset($response['error'])) {
+                $message = 'Sorry no such cryptocurrency found buddy..';
             } else {
-                $error = "Sorry pak, gak ada hasil untuk : .\n";
-                $error .= "<b>".$this->text." 1</b>";
-                $this->showMenu($error);
+                $message = $this->formatArray($response[0]);
             }
+            Telegram::where('username', $this->username)->delete();
+            $this->sendMessage($message, true);
         } else {
             $error = "Sorry pak, gak ada hasil untuk : .\n";
             $error .= "<b>".$this->text." 2 </b>";
