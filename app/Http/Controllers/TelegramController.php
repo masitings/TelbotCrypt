@@ -64,7 +64,7 @@ class TelegramController extends Controller
             case strpos($this->text, 'top') !== false:
                 $this->getTicker();
                 break;
-            case strpos($this->text, 'coin') !== false:
+            case strpos($this->text, 'info') !== false:
                 $this->getCurrencyTicker();
                 break;
             default:
