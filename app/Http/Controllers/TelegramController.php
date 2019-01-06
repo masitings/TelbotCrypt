@@ -43,7 +43,7 @@ class TelegramController extends Controller
         switch ($this->text) {
             case strpos($this->text, 'menu') !== false:
                 $msg = "Hallo bang / mbak ? Ada yang bisa dibantu ?.\n";
-                $this->showMenu();
+                $this->showMenu($msg);
                 break;
             case strpos($this->text, 'global') !== false:
                 $this->showGlobal();
