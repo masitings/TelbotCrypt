@@ -140,7 +140,7 @@ class TelegramController extends Controller
                 $data = collect($response);
                 $rep = $data->first();
 
-                $message = $this->formatArray($this->formatCoin($data));
+                $message = $this->formatArray($this->formatCoin($rep));
             }
             Telegram::where('username', $this->username)->delete();
             $this->sendMessage($message, true);
