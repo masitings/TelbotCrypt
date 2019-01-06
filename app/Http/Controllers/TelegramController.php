@@ -37,8 +37,8 @@ class TelegramController extends Controller
     private function randOpenMsg()
     {
         $msg = [
-            'Hallo bang, ada yang bisa di bantu ?', 'Hallo boss, gimana ? ada yang bisa di bantu ?', 'Uhh... Gimana pak ?', 'Iya pak ? Gimana ?', 'Oh gimana mas / mbak ?';
-        ]
+            'Hallo bang, ada yang bisa di bantu ?', 'Hallo boss, gimana ? ada yang bisa di bantu ?', 'Uhh... Gimana pak ?', 'Iya pak ? Gimana ?', 'Oh gimana mas / mbak ?'
+        ];
         return $msg[array_rand($msg)];
     }
 
