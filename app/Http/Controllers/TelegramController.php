@@ -50,6 +50,8 @@ class TelegramController extends Controller
             $this->getCurrencyTicker();
             if ($this->processCoin() != false) {
                 $this->sendMessage($this->processCoin(), true);
+            } else {
+                $this->sendMessage('SALAH OM', true);
             }
             // $this->checkDatabase();
         } else {
