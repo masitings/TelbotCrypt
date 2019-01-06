@@ -126,7 +126,7 @@ class TelegramController extends Controller
         try {
             $telegram = Telegram::where('username', $this->username)->latest()->firstOrFail();
  
-            if ($telegram->command == 'getCurrencyTicker') {
+            if ($telegram->command === 'getCurrencyTicker') {
                 // $response = CoinMarketCap::getCurrencyTicker($this->text);
  
                 // if (isset($response['error'])) {
