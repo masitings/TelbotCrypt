@@ -138,6 +138,10 @@ class TelegramController extends Controller
                 Telegram::where('username', $this->username)->delete();
  
                 
+            } else {
+                $this->sendMessage($telegam->command, true);
+                Telegram::where('username', $this->username)->delete();
+                
             }
         } catch (Exception $exception) {
             $error = "Sorry, no such cryptocurrency found.\n";
