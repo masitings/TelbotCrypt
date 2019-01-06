@@ -66,9 +66,9 @@ class TelegramController extends Controller
             $message .= $info . chr(10);
         }
         $message .= '/menu (Menampilkan menu)' . chr(10);
-        $message .= '/getGlobal ' . chr(10);
-        $message .= '/getTicker' . chr(10);
-        $message .= '/getCurrencyTicker' . chr(10);
+        $message .= '/getGlobal (Menampilkan total seluruh coin)' . chr(10);
+        $message .= '/getTicker (Menampilkan 10 ranking coin.)' . chr(10);
+        $message .= '/getCurrencyTicker (Menampilkan berdasarkan inputan)' . chr(10);
  
         $this->sendMessage($message);
     }
@@ -95,7 +95,7 @@ class TelegramController extends Controller
  
     public function getCurrencyTicker()
     {
-        $message = "Please enter the name of the Cryptocurrency";
+        $message = "Coin apa bapak ? ";
  
         Telegram::create([
             'username' => $this->username,
