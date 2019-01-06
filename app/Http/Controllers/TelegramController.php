@@ -81,17 +81,14 @@ class TelegramController extends Controller
 
     private function clearMessage()
     {
-        $arrCoin = [
-            'btc', 'bitcoin', 'ltc', 'litecoin', 'xmr', 'monero', 'eth', 'etherum'
-        ];
 
-        if ($this->strposa($this->text, $arrCoin, 1) !== false) {
+        if ($this->strposa($this->text, ['btc', 'bitcoin'], 1)) {
             return 'bitcoin';
-        } elseif ($this->strposa($this->text, $arrCoin, 1) !== false) {
+        } elseif ($this->strposa($this->text, ['ltc', 'litecoin'], 1)) {
             return 'litecoin';
-        } elseif ($this->strposa($this->text, $arrCoin, 1) !== false) {
+        } elseif ($this->strposa($this->text, ['xmr', 'monero'], 1)) {
             return 'monero';
-        } elseif ($this->strposa($this->text, $arrCoin, 1) !== false) {
+        } elseif ($this->strposa($this->text, ['eth', 'etherum'], 1)) {
             return 'etherum';
         } else {
             return false;
@@ -114,13 +111,13 @@ class TelegramController extends Controller
                 $this->sendMessage($message, true);
             } else {
                 $error = "Sorry pak, gak ada hasil untuk : .\n";
-                $error .= "<b>".$this->text."</b>";
-                $this->showMenu($error, true);
+                $error .= "<b>".$this->text." 1</b>";
+                $this->showMenu($error);
             }
         } else {
             $error = "Sorry pak, gak ada hasil untuk : .\n";
-            $error .= "<b>".$this->text."</b>";
-            $this->showMenu($error, true);
+            $error .= "<b>".$this->text." 2 </b>";
+            $this->showMenu($error);
         }
     }
 
@@ -138,7 +135,7 @@ class TelegramController extends Controller
         $message .= '"top" => nampilin 10 ranking coin' . chr(10);
         $message .= '"info" => nampilin info coin berdasarkan inputan' . chr(10);
  
-        $this->sendMessage($message);
+        $this->sendMessage($message, true);
     }
  
     public function showGlobal()
