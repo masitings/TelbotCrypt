@@ -124,8 +124,8 @@ class TelegramController extends Controller
     public function checkDatabase()
     {
         try {
-            $telegram = Telegram::where('username', $this->username)->latest()->firstOrFail();
-            $this->sendMessage($telegam->command, true);
+            // $telegram = Telegram::where('username', $this->username)->latest()->firstOrFail();
+            $this->sendMessage($this->username, true);
             // if ($telegram->command === 'getCurrencyTicker') {
             //     $response = CoinMarketCap::getCurrencyTicker($this->text);
  
