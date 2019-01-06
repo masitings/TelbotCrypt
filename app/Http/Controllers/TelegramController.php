@@ -125,27 +125,28 @@ class TelegramController extends Controller
     {
         try {
             $telegram = Telegram::where('username', $this->username)->latest()->firstOrFail();
+            $this->sendMessage($telegam->command, true);
+            // if ($telegram->command === 'getCurrencyTicker') {
+            //     $response = CoinMarketCap::getCurrencyTicker($this->text);
  
-            if ($telegram->command === 'getCurrencyTicker') {
-                // $response = CoinMarketCap::getCurrencyTicker($this->text);
- 
-                // if (isset($response['error'])) {
-                //     $message = 'Sorry no such cryptocurrency found';
-                // } else {
-                //     $message = $this->formatArray($response[0]);
-                // }
-                $this->sendMessage($telegam->command, true);
-                Telegram::where('username', $this->username)->delete();
+            //     // if (isset($response['error'])) {
+            //     //     $message = 'Sorry no such cryptocurrency found';
+            //     // } else {
+            //     //     $message = $this->formatArray($response[0]);
+            //     // }
+            //     $this->sendMessage($telegam->command, true);
+            //     Telegram::where('username', $this->username)->delete();
  
                 
-            } else {
-                $this->sendMessage($telegam->command, true);
-                Telegram::where('username', $this->username)->delete();
+            // } else {
+            //     $this->sendMessage($telegam->command, true);
+            //     Telegram::where('username', $this->username)->delete();
 
-            }
+            // }
         } catch (Exception $exception) {
-            
-            $this->showMenu($this->text);
+            $error = "Sorry, no such cryptocurrency found.\n";
+            $error .= "Please select one of the following options";
+            $this->showMenu($error);
         }
     }
  
