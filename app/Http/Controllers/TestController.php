@@ -7,11 +7,10 @@ use coinmarketcap\api\CoinMarketCap;
 
 class TestController extends Controller
 {
-    public function data()
+    public function index()
     {
-        $response = CoinMarketCap::getCurrencyTicker('bitcoin');
-        $data = collect($response);
-        return $data->first();
+        $response = CoinMarketCap::getGlobalData();
+        return $response;
     }
 
     private function priceDollar()
@@ -30,7 +29,7 @@ class TestController extends Controller
         return number_format($am * $usd);
     }
 
-    public function index()
+    public function indexs()
     {
         $data = $this->data();
         $arr = [
@@ -42,10 +41,5 @@ class TestController extends Controller
             'Total Supply' => number_format($data['total_supply']).' BTC',
         ];
         return $arr;
-        // $arr = [];
-        // foreach ($data as $key) {
-        //     $arr['nama'] = $key->name;
-        // }
-        // return $arr;
     }
 }

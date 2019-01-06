@@ -128,6 +128,19 @@ class TelegramController extends Controller
         return $arr;
     }
 
+    public function formatGlobal($data)
+    {
+        $arr = [
+            'Total Market Cap (USD)' => number_format($data['total_market_cap_usd']),
+            'Total Volume Coin Selama 24 Jam' => number_format($data['total_24h_volume_usd']),
+            'Persentase Bitcoin di Market' => $data['bitcoin_percentage_of_market_cap'].'%',
+            'Kurs aktif' => number_format($data['active_currencies']),
+            'Aset aktif' => number_format($data['active_assets']),
+            'Market aktif' => number_format($data['active_markets']),
+        ];
+        return $arr;
+    }
+
     public function checkDatabase()
     {
         $telegram = Telegram::where('username', $this->username)->latest()->first();
@@ -171,7 +184,7 @@ class TelegramController extends Controller
     public function showGlobal()
     {
         $data = CoinMarketCap::getGlobalData();
-        $this->sendMessage($this->formatArray($this->formatCoin($data)), true);
+        $this->sendMessage($this->formatArray($this->formatGlobal($data)), true);
     }
  
     public function getTicker()
