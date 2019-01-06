@@ -111,12 +111,12 @@ class TelegramController extends Controller
             } else {
                 $error = "Sorry pak, gak ada hasil untuk : .\n";
                 $error .= "<b>".$this->text."</b>";
-                $this->showMenu($error);
+                $this->showMenu($error, true);
             }
         } else {
             $error = "Sorry pak, gak ada hasil untuk : .\n";
             $error .= "<b>".$this->text."</b>";
-            $this->showMenu($error);
+            $this->showMenu($error, true);
         }
     }
 
