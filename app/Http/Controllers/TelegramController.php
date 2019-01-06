@@ -79,16 +79,16 @@ class TelegramController extends Controller
         return min($chr);
     }
 
-    private function clearMessage()
+    private function clearMessage($input)
     {
 
-        if ($this->strposa($this->text, ['btc', 'bitcoin'], 1) !== false) {
+        if ($this->strposa($input, ['btc', 'bitcoin'], 1) !== false) {
             return 'bitcoin';
-        } elseif ($this->strposa($this->text, ['ltc', 'litecoin'], 1) !== false) {
+        } elseif ($this->strposa($input, ['ltc', 'litecoin'], 1) !== false) {
             return 'litecoin';
-        } elseif ($this->strposa($this->text, ['xmr', 'monero'], 1) !== false) {
+        } elseif ($this->strposa($input, ['xmr', 'monero'], 1) !== false) {
             return 'monero';
-        } elseif ($this->strposa($this->text, ['eth', 'etherum'], 1) !== false) {
+        } elseif ($this->strposa($input, ['eth', 'etherum'], 1) !== false) {
             return 'etherum';
         } else {
             return false;
@@ -99,7 +99,7 @@ class TelegramController extends Controller
     {
         $telegram = Telegram::where('username', $this->username)->latest()->first();
         if ($telegram->command === 'getCurrencyTicker') {
-            $clearMsg = $this->clearMessage();
+            $clearMsg = $this->clearMessage($this->text);
             if ($clearMsg) {
                 $response = CoinMarketCap::getCurrencyTicker($clearMsg);
                 if (isset($response['error'])) {
