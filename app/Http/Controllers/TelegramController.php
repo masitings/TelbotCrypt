@@ -101,7 +101,7 @@ class TelegramController extends Controller
         if ($telegram->command === 'getCurrencyTicker') {
             $clearMsg = $this->clearMessage();
             if ($clearMsg) {
-                $response = CoinMarketCap::getCurrencyTicker($this->text);
+                $response = CoinMarketCap::getCurrencyTicker($clearMsg);
                 if (isset($response['error'])) {
                     $message = 'Sorry no such cryptocurrency found buddy..';
                 } else {
