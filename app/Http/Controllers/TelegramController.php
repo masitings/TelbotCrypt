@@ -79,18 +79,20 @@ class TelegramController extends Controller
         return min($chr);
     }
 
-    private function clearMessage($input)
+    private function clearMessage()
     {
-
-        if ($this->strposa($input, ['btc', 'bitcoin'], 1) !== false) {
+        if ($this->strposa($this->text, ['btc', 'bitcoin'], 1)) {
             return 'bitcoin';
-        } elseif ($this->strposa($input, ['ltc', 'litecoin'], 1) !== false) {
+        } elseif ($this->strposa($this->text, ['ltc', 'litecoin'], 1)) {
             return 'litecoin';
-        } elseif ($this->strposa($input, ['xmr', 'monero'], 1) !== false) {
+        } elseif ($this->strposa($this->text, ['xmr', 'monero'], 1)) {
             return 'monero';
-        } elseif ($this->strposa($input, ['eth', 'etherum'], 1) !== false) {
+        } elseif ($this->strposa($this->text, ['eth', 'etherum'], 1)) {
             return 'etherum';
         } else {
+            // $error = "Maaf boss, coin yang anda masukin ngga ada.\n";
+            // $error .= "Tolong masukan coin berdasarkan alias atau nama nya langsung.";
+            // $this->showMenu($error);
             return false;
         }
     }
@@ -98,10 +100,11 @@ class TelegramController extends Controller
     public function checkDatabase()
     {
         $telegram = Telegram::where('username', $this->username)->latest()->first();
+        // Telegram::where('username', $this->username)->delete();
         if ($telegram->command === 'getCurrencyTicker') {
-            $clearMsg = $this->clearMessage($this->text);
+            $clearMsg = $this->clearMessage();
             if ($clearMsg) {
-                $response = CoinMarketCap::getCurrencyTicker($clearMsg);
+                $response = CoinMarketCap::getCurrencyTicker($this->text);
                 if (isset($response['error'])) {
                     $message = 'Sorry no such cryptocurrency found buddy..';
                 } else {
@@ -110,13 +113,15 @@ class TelegramController extends Controller
                 Telegram::where('username', $this->username)->delete();
                 $this->sendMessage($message, true);
             } else {
-                $error = "Sorry pak, gak ada hasil untuk : .\n";
-                $error .= "<b>".$this->text." 1</b>";
+                $error = "Sorry, no such cryptocurrency found.\n";
+                $error .= "Please select one of the following options";
                 $this->showMenu($error);
             }
+            
+            
         } else {
-            $error = "Sorry pak, gak ada hasil untuk : .\n";
-            $error .= "<b>".$this->text." 2 </b>";
+            $error = "Sorry, no such cryptocurrency found.\n";
+            $error .= "Please select one of the following options";
             $this->showMenu($error);
         }
     }
@@ -135,12 +140,13 @@ class TelegramController extends Controller
         $message .= '"top" => nampilin 10 ranking coin' . chr(10);
         $message .= '"info" => nampilin info coin berdasarkan inputan' . chr(10);
  
-        $this->sendMessage($message, true);
+        $this->sendMessage($message);
     }
  
     public function showGlobal()
     {
         $data = CoinMarketCap::getGlobalData();
+ 
         $this->sendMessage($this->formatArray($data), true);
     }
  
@@ -148,12 +154,18 @@ class TelegramController extends Controller
     {
         $data = CoinMarketCap::getTicker();
         $formatted_data = "";
+ 
         foreach ($data as $datum) {
             $formatted_data .= $this->formatArray($datum);
             $formatted_data .= "-----------\n";
         }
+ 
         $this->sendMessage($formatted_data, true);
     }
+ 
+    
+ 
+    
  
     protected function formatArray($data)
     {
@@ -175,7 +187,9 @@ class TelegramController extends Controller
             'chat_id' => $this->chat_id,
             'text' => $message,
         ];
+ 
         if ($parse_html) $data['parse_mode'] = 'HTML';
+ 
         $this->telegram->sendMessage($data);
     }
 }
