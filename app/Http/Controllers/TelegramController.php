@@ -65,8 +65,8 @@ class TelegramController extends Controller
         if ($info) {
             $message .= $info . chr(10);
         }
-        $message .= '/menu' . chr(10);
-        $message .= '/getGlobal' . chr(10);
+        $message .= '/menu (Menampilkan menu)' . chr(10);
+        $message .= '/getGlobal ' . chr(10);
         $message .= '/getTicker' . chr(10);
         $message .= '/getCurrencyTicker' . chr(10);
  
@@ -139,7 +139,7 @@ class TelegramController extends Controller
                 $value = Carbon::createFromTimestampUTC($value)->diffForHumans();
             }
             $formatted_data .= "<b>{$item}</b>\n";
-            $formatted_data .= "\t{$value}\n";
+            $formatted_data .= "\t".number_format($value)."\n";
         }
         return $formatted_data;
     }
