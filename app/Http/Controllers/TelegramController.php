@@ -171,7 +171,7 @@ class TelegramController extends Controller
     public function showGlobal()
     {
         $data = CoinMarketCap::getGlobalData();
-        $this->sendMessage($this->formatArray($data), true);
+        $this->sendMessage($this->formatArray($this->formatCoin($data)), true);
     }
  
     public function getTicker()
