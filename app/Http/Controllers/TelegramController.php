@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Telegram;
 use Carbon\Carbon;
-use coinmarketcap\api\CoinMarketCap;
 use Exception;
 use Illuminate\Http\Request;
 use Telegram\Bot\Api;
+use coinmarketcap\api\CoinMarketCap;
 
 class TelegramController extends Controller
 {
@@ -84,27 +84,29 @@ class TelegramController extends Controller
 
     public function checkDatabase()
     {
-        try {
-            $telegram = Telegram::where('username', $this->username)->latest()->firstOrFail();
+        $telegram = Telegram::where('username', $this->username)->latest()->first();
+        $this->sendMessage($telegram->command, true);
+        // try {
+            
  
-            if ($telegram->command == 'getCurrencyTicker') {
-                $response = CoinMarketCap::getCurrencyTicker($this->text);
+        //     if ($telegram->command == 'getCurrencyTicker') {
+        //         $response = CoinMarketCap::getCurrencyTicker($this->text);
  
-                if (isset($response['error'])) {
-                    $message = 'Sorry no such cryptocurrency found buddy..';
-                } else {
-                    $message = $this->formatArray($response[0]);
-                }
+        //         if (isset($response['error'])) {
+        //             $message = 'Sorry no such cryptocurrency found buddy..';
+        //         } else {
+        //             $message = $this->formatArray($response[0]);
+        //         }
  
-                Telegram::where('username', $this->username)->delete();
+        //         Telegram::where('username', $this->username)->delete();
  
-                $this->sendMessage($message, true);
-            }
-        } catch (Exception $exception) {
-            $error = "Sorry, no such cryptocurrency found.\n";
-            $error .= "Please select one of the following options";
-            $this->showMenu($error);
-        }
+        //         $this->sendMessage($message, true);
+        //     }
+        // } catch (Exception $exception) {
+        //     $error = "Sorry, no such cryptocurrency found.\n";
+        //     $error .= "Please select one of the following options";
+        //     $this->showMenu($error);
+        // }
     }
 
     public function showMenu($info = null)
