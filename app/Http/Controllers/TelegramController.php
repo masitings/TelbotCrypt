@@ -118,7 +118,7 @@ class TelegramController extends Controller
     public function formatCoin($data)
     {
         $arr = [
-            'Ranking Coin' => "\U+1F947 ".$data['rank'],
+            'Ranking Coin' => "\xF0\x9F\x8C\x9F ".$data['rank'],
             'Nama Coin' => $data['name'],
             'Alias Coin' => $data['symbol'],
             'Harga USD' => '$'.number_format($data['price_usd']),
