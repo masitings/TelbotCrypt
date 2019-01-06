@@ -91,7 +91,7 @@ class TelegramController extends Controller
                 $response = CoinMarketCap::getCurrencyTicker($this->text);
  
                 if (isset($response['error'])) {
-                    $message = 'Sorry no such cryptocurrency found';
+                    $message = 'Sorry no such cryptocurrency found buddy..';
                 } else {
                     $message = $this->formatArray($response[0]);
                 }
