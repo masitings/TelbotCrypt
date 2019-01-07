@@ -85,9 +85,9 @@ class TelegramController extends Controller
         return false;
     }
 
-    private function clearMessage($input)
+    private function clearMessage($inputan)
     {
-
+        $input = strtolower($inputan);
         if (strpos($input, 'bitcoin') !== false) {
             return 'bitcoin';
         } elseif (strpos($input, 'litecoin') !== false) {
